@@ -32,39 +32,33 @@ export class UserService {
         }
     }
 
-    async getOne(id?: string, email?: string): Promise<UserEntity | null> {
-
-        let staff: UserEntity | null;
-        if (id) {
-            staff = await this.userRepository.findOne({ where: { id } });
-        } else if (email) {
-            staff = await this.userRepository.findOne({ where: { email } });
-        }
-
+    async getOne(id: string): Promise<UserEntity | null> {
+        
+        const staff = await this.userRepository.findOne({ where: { id } });
         return staff;
     }
 
     async update(id: string, payload: Partial<UserEntity>) {
-        try {
+        // try {
             await this.userRepository.update(
                 { id },
                 { ...payload }
             )
-        } catch (error) {
-            if (error instanceof TypeORMError)
-                throw new ForbiddenException('Database operation failed, duplicate found ');
-            throw error;
-        }
+        // } catch (error) {
+        //     if (error instanceof TypeORMError)
+        //         throw new ForbiddenException('Database operation failed, duplicate found ');
+        //     throw error;
+        // }
     }
 
     async delete(id: string) {
 
-        try {
+        // try {
             await this.userRepository.delete({ id });
-        } catch (error) {
-            if (error instanceof TypeORMError)
-                throw new ForbiddenException('Database operation failed');
-            throw error;
-        }
+        // } catch (error) {
+        //     if (error instanceof TypeORMError)
+        //         throw new ForbiddenException('Database operation failed');
+        //     throw error;
+        // }
     }
 }

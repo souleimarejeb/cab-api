@@ -19,7 +19,11 @@ export class UserEntity extends BaseEntity {
   last_name: string;
 
   @ApiProperty()
-  @Column({ type: 'varchar', length: '250', nullable: true })
+  @Column({ type: 'varchar', length: '1250', nullable: true, unique:true})
+  username: string;
+  
+  @ApiProperty()
+  @Column({ type: 'varchar', length: '250', nullable: true, unique:true})
   email: string;
 
   @ApiProperty()
