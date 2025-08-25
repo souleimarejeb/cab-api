@@ -15,9 +15,9 @@ export class UserExistsMiddleware implements NestMiddleware {
     async use(req: Request, res: Response, next: NextFunction) {
 
         const id = req.params.id || req.body.id || null;
-        const client = await this.userService.getOne(id);
-        
-        if (!client) {
+        const user = await this.userService.getOne(id);
+
+        if (!user) {
             throw new NotFoundException(`User with id = ${id} Not Found `);
         }
         next();
