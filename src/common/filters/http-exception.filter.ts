@@ -1,16 +1,29 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger, ConflictException } from '@nestjs/common';
 import { Response } from 'express';
+import { QueryFailedError, TypeORMError } from 'typeorm';
 
-@Catch(HttpException)
+@Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-     private readonly logger = new Logger(HttpExceptionFilter.name);
-    catch(exception: unknown, host: ArgumentsHost) {
+  private readonly logger = new Logger(HttpExceptionFilter.name);
+  catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal server error';
+
+    if (exception instanceof QueryFailedError) {
+      const mysqlError = exception as any;
+      if (mysqlError.code === 'ER_DUP_ENTRY' || mysqlError.code === '23505') {
+        exception = new ConflictException('Credentials taken');
+      }
+    }
+
+    if (exception instanceof TypeORMError) {
+      exception = new ConflictException('Database error');
+    }
+
 
     if (exception instanceof HttpException) {
       status = exception.getStatus();
@@ -23,9 +36,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
       message = exception.message;
     }
 
+
     this.logger.error(
-            `${request.method} ${request.url} ${status} error:{ ${message} } `
-        );
+      `${request.method} ${request.url} ${status} error:{ ${message} } `
+    );
 
     response.status(status).json({
       statusCode: status,

@@ -1,12 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseInterceptors } from '@nestjs/common';
-import { TransformResponseInterceptor } from 'src/common/interceptors/transform-response.interceptor';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { UserEntity } from 'src/database/models/user.entity';
 import { UserService } from './user.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 
 @ApiTags('USERS MGMT')
-@UseInterceptors(TransformResponseInterceptor)
 @Controller({ version: '1', path: 'user' })
 export class UserController {
 
