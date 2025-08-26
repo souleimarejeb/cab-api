@@ -1,6 +1,5 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger, ConflictException } from '@nestjs/common';
 import { Response } from 'express';
-import { QueryFailedError, TypeORMError } from 'typeorm';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
