@@ -13,18 +13,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal server error';
 
-    if (exception instanceof QueryFailedError) {
-      const mysqlError = exception as any;
-      if (mysqlError.code === 'ER_DUP_ENTRY' || mysqlError.code === '23505') {
-        exception = new ConflictException('Credentials taken');
-      }
-    }
-
-    if (exception instanceof TypeORMError) {
-      exception = new ConflictException('Database error');
-    }
-
-
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       const res = exception.getResponse();
