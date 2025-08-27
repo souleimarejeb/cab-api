@@ -46,12 +46,11 @@ export class UserService {
     async update(id: string, payload: Partial<UserEntity>) {
         try {
             const user = await this.getOne(id);
-            if (user) {
-                await this.userRepository.update(
-                    { id },
-                    { ...payload }
-                )
-            }
+
+            return await this.userRepository.update(
+                { id },
+                { ...payload }
+            )
         } catch (error) {
             throw error;
         }
@@ -60,9 +59,9 @@ export class UserService {
     async delete(id: string) {
         try {
             const user = await this.getOne(id);
-            await this.userRepository.delete({ id });
-            return { deleted: true }
-
+            await this.userRepository.softDelete(id);
+            return { deleted: true };
+            
         } catch (error) {
             throw error;
         }
