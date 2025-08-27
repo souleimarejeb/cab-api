@@ -3,7 +3,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserEntity } from 'src/database/models/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserDto } from './dtos/user.dto';
+import { UserDto } from '../../database/dtos/user.dto';
+import { UpadteUserDto } from 'src/database/dtos/updatte-user.dto';
 
 @Injectable()
 export class UserService {
@@ -44,14 +45,11 @@ export class UserService {
         }
     }
 
-    async update(id: string, payload: Partial<UserDto>) {
+    async update(id: string, payload: UpadteUserDto) {
         try {
             const user = await this.getOne(id);
-
-            return await this.userRepository.update(
-                { id },
-                { ...payload }
-            )
+            Object.assign(user, payload)
+            return await this.userRepository.save(user)
         } catch (error) {
             throw error;
         }

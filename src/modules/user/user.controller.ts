@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { UserDto } from './dtos/user.dto';
+import { UserDto } from '../../database/dtos/user.dto';
+import { UpadteUserDto } from 'src/database/dtos/updatte-user.dto';
 
 
 @ApiTags('USERS MGMT')
@@ -30,7 +31,7 @@ export class UserController {
     @Put(':id')
     @ApiBody({ type: UserDto })
     update(
-        @Body() payload: Partial<UserDto>,
+        @Body() payload: UpadteUserDto,
         @Param('id') id: string
     ) {
         return this.userService.update(id, payload);

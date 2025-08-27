@@ -1,26 +1,30 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsString, Length, Max, Min } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, Length, Max, Min } from 'class-validator';
 
 export class UserDto {
+
     @ApiProperty()
     @IsString({ message: 'Content must be a string' })
-    @Length(2, 100) 
+    @Length(2, 100)
+    @IsOptional()
     name: string;
 
     @ApiProperty()
-    @Length(2, 100) 
+    @Length(2, 100)
+    @IsString({ message: 'Content must be a string' })
+    @IsOptional()
     last_name: string;
 
     @ApiProperty()
     @IsNotEmpty()
     @IsString({ message: 'Content must be a string' })
-    @Length(2, 100) 
+    @Length(2, 100)
     username: string;
 
     @ApiProperty()
-    @IsEmail({}, { message: 'Invalid email address' })
     @IsNotEmpty()
-    @Length(10,255,{message:'Email must be between 10 and 255 characters long '})
+    @IsEmail({}, { message: 'Invalid email address' })
+    @Length(10, 255, { message: 'Email must be between 10 and 255 characters long ' })
     email: string;
 
     @ApiProperty()
@@ -29,5 +33,6 @@ export class UserDto {
 
     @ApiProperty()
     @IsString({ message: 'Each photo URL must be a string' })
+    @IsOptional()
     profile_picture: string;
 }
