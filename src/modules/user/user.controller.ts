@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { UserService } from './user.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { UserDto } from '../../database/dtos/user.dto';
-import { UpadteUserDto } from 'src/database/dtos/updatte-user.dto';
+import { UpadteUserDto } from 'src/database/dtos/update-user.dto';
 
 
 @ApiTags('USERS MGMT')

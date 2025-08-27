@@ -4,7 +4,7 @@ import { UserEntity } from 'src/database/models/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDto } from '../../database/dtos/user.dto';
-import { UpadteUserDto } from 'src/database/dtos/updatte-user.dto';
+import { UpadteUserDto } from 'src/database/dtos/update-user.dto';
 
 @Injectable()
 export class UserService {
