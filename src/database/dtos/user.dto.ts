@@ -1,7 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty ,PartialType} from "@nestjs/swagger";
 import { IsEmail, IsNotEmpty, IsOptional, IsString, Length} from 'class-validator';
 
-export class UserDto {
+export class CreateUserDto {
 
     @ApiProperty()
     @IsString({ message: 'Name must be a string' })
@@ -35,4 +35,6 @@ export class UserDto {
     @IsString({ message: 'Each photo URL must be a string' })
     @IsOptional()
     profile_picture: string;
+}
+export class UpadteUserDto extends PartialType(CreateUserDto)  {
 }
