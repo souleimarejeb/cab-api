@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { UserEntity } from 'src/database/models/user.entity';
 import { UserService } from './user.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { UserDto } from './dtos/user.dto';
 
 
 @ApiTags('USERS MGMT')
@@ -11,9 +11,10 @@ export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Post()
-    @ApiBody({ type: UserEntity })
-    create(@Body() paylaod: Partial<UserEntity>) {
-        return this.userService.create(paylaod);
+    @ApiBody({ type: UserDto })
+    create(@Body() payload:UserDto): Promise<UserDto> {
+
+        return this.userService.create(payload);
     }
 
     @Get(':id')
@@ -27,9 +28,9 @@ export class UserController {
     }
 
     @Put(':id')
-    @ApiBody({ type: UserEntity })
+    @ApiBody({ type: UserDto })
     update(
-        @Body() payload: Partial<UserEntity>,
+        @Body() payload: Partial<UserDto>,
         @Param('id') id: string
     ) {
         return this.userService.update(id, payload);

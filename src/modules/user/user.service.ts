@@ -3,6 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserEntity } from 'src/database/models/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UserDto } from './dtos/user.dto';
 
 @Injectable()
 export class UserService {
@@ -12,7 +13,7 @@ export class UserService {
         private readonly userRepository: Repository<UserEntity>
     ) { }
 
-    async create(payload: Partial<UserEntity>): Promise<UserEntity> {
+    async create(payload: UserDto): Promise<UserDto> {
         try {
             const newUser = this.userRepository.create({
                 ...payload
@@ -23,7 +24,7 @@ export class UserService {
         }
     }
 
-    async getAll(): Promise<UserEntity[]> {
+    async getAll(): Promise<UserDto[]> {
         try {
             return await this.userRepository.find();
         } catch (error) {
@@ -31,7 +32,7 @@ export class UserService {
         }
     }
 
-    async getOne(id: string): Promise<UserEntity> {
+    async getOne(id: string): Promise<UserDto> {
         try {
             const user = await this.userRepository.findOne({ where: { id } });
             if (!user) {
@@ -43,7 +44,7 @@ export class UserService {
         }
     }
 
-    async update(id: string, payload: Partial<UserEntity>) {
+    async update(id: string, payload: Partial<UserDto>) {
         try {
             const user = await this.getOne(id);
 
