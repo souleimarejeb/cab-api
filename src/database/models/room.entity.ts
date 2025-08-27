@@ -1,39 +1,55 @@
 
 import {
+  BeforeInsert,
   Column,
   Entity,
   ManyToOne,
 
 } from 'typeorm';
 import { BaseEntity } from './base.model';
-import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from './user.entity';
 
 @Entity({ name: 'rooms' })
 export class RoomEntity extends BaseEntity {
 
-  @ApiProperty()
-  @Column({ type: 'varchar', length: '250', nullable: true })
-  secret_number: string;
+  @Column({ type: 'int' })
+  secret_number: number;
 
+  @Column({ type: 'varchar', length: '1250', nullable: true, unique:true })
+  room_id: string;
 
-  @ApiProperty()
-  @Column({ type: 'varchar', length: '1250', nullable: true })
+  @Column({ type: 'varchar', length: '1250', nullable: true, default:'N/A' })
   winner_id: string;
 
-  @ApiProperty()
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'int', nullable: true , default:10 })
   tries: number;
 
-  @ApiProperty()
-  @Column({ type: 'varchar', length: '250', nullable: true })
-  score: string;
+  @Column({ type: 'int', nullable: true, default:0})
+  score: number;
 
-  @ApiProperty()
   @ManyToOne(() => UserEntity, (user) => user)
   p1_id: UserEntity;
 
-  @ApiProperty()
   @ManyToOne(() => UserEntity, (user) => user)
   p2_id: UserEntity;
+
+
+  @BeforeInsert()
+  public getSecretNumber() {
+    do {
+      this.secret_number = (Math.floor((Math.random() * 9000) + 1000))
+    } while (this.hasRepdigit(this.secret_number))
+    return this.secret_number;
+  }
+
+  @BeforeInsert()
+  public getRoomId() {
+   
+    return this.room_id;
+  }
+
+  public hasRepdigit(N) {
+    return (/([0-9]).*?\1/).test(N)
+  }
+
 }

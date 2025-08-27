@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateRoomDto } from 'src/database/dtos/create-room.dto';
 import { RoomEntity } from 'src/database/models/room.entity';
 import { Repository } from 'typeorm';
 
@@ -10,8 +11,9 @@ export class RoomService {
         private readonly roomRepository: Repository<RoomEntity>) { }
 
 
-    async create(payload: Partial<RoomEntity>): Promise<RoomEntity> {
+    async create(payload: CreateRoomDto): Promise<CreateRoomDto> {
         try {
+           
             const newRoom = this.roomRepository.create({
                 ...payload
             })
@@ -20,4 +22,5 @@ export class RoomService {
             throw error;
         }
     }
+
 }
