@@ -48,11 +48,9 @@ export class RoomService {
     async update(id: string, payload: UpdateRoomDto) {
         try {
             const room = await this.getOne(id);
-            console.log("player 1 = ",payload.player_1);
-            console.log("player 1 = ",payload.player_2);
-           const player_1= await this.userService.getOne(payload.player_1.id);
-           console.log("here is the player1" ,player_1);
-            await this.userService.getOne(payload.player_2.id);
+            
+            await this.userService.getOne(String(payload.player_1));
+            await this.userService.getOne(String(payload.player_2));
 
             Object.assign(room, payload)
             return await this.roomRepository.save(room)
