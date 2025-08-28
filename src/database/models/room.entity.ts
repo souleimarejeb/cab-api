@@ -3,7 +3,7 @@ import {
   BeforeInsert,
   Column,
   Entity,
-  ManyToOne,
+  ManyToOne
 
 } from 'typeorm';
 import { BaseEntity } from './base.model';
@@ -15,23 +15,23 @@ export class RoomEntity extends BaseEntity {
   @Column({ type: 'int' })
   secret_number: number;
 
-  @Column({ type: 'varchar', length: '1250', nullable: true, unique:true })
+  @Column({ type: 'varchar', length: '1250', nullable: true, unique: true })
   room_id: string;
 
-  @Column({ type: 'varchar', length: '1250', nullable: true, default:'N/A' })
+  @Column({ type: 'varchar', length: '1250', nullable: true, default: 'N/A' })
   winner_id: string;
 
-  @Column({ type: 'int', nullable: true , default:10 })
+  @Column({ type: 'int', nullable: true, default: 10 })
   tries: number;
 
-  @Column({ type: 'int', nullable: true, default:0})
+  @Column({ type: 'int', nullable: true, default: 0 })
   score: number;
 
   @ManyToOne(() => UserEntity, (user) => user)
-  p1_id: UserEntity;
+  player_1: UserEntity;
 
   @ManyToOne(() => UserEntity, (user) => user)
-  p2_id: UserEntity;
+  player_2: UserEntity;
 
 
   @BeforeInsert()
@@ -44,7 +44,7 @@ export class RoomEntity extends BaseEntity {
 
   @BeforeInsert()
   public getRoomId() {
-   
+    this.room_id = this.makeString();
     return this.room_id;
   }
 
@@ -52,4 +52,13 @@ export class RoomEntity extends BaseEntity {
     return (/([0-9]).*?\1/).test(N)
   }
 
+  makeString(): string {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < 5; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
 }
