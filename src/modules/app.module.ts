@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from 'src/database/config/config';
 import { UserModule } from './user/user.module';
+import { RoomManagementModule } from './room_management/room_management.module';
 
 
 @Module({
@@ -11,6 +12,7 @@ import { UserModule } from './user/user.module';
      ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(dataSourceOptions),
     UserModule,
+    RoomManagementModule,
   ],
   controllers: [],
   providers: [],
