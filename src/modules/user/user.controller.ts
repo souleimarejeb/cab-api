@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from '../../database/dtos/user.dto';
+import { UserDto } from '../../database/dtos/user.dto';
 import { UpadteUserDto } from '../../database/dtos/user.dto';
 
 
@@ -12,8 +12,8 @@ export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Post()
-    @ApiBody({ type: CreateUserDto })
-    create(@Body() payload:CreateUserDto): Promise<CreateUserDto> {
+    @ApiBody({ type: UserDto })
+    create(@Body() payload:UserDto): Promise<UserDto> {
 
         return this.userService.create(payload);
     }
@@ -29,7 +29,7 @@ export class UserController {
     }
 
     @Put(':id')
-    @ApiBody({ type: CreateUserDto })
+    @ApiBody({ type: UpadteUserDto })
     update(
         @Body() payload: UpadteUserDto,
         @Param('id') id: string
