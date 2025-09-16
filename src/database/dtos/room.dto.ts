@@ -4,6 +4,7 @@ import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Length } from 'cla
 
 
 export class CreateRoomDto {
+    
     @ApiProperty()
     @IsString({ message: 'winner_id must be a string' })
     @IsOptional()
@@ -17,6 +18,14 @@ export class CreateRoomDto {
     @ApiProperty()
     @IsOptional()
     score: number;
+
+    @ApiProperty()
+    @IsString({ message: 'player_id must be a string' })
+    player_1: UserEntity;
+
+    @ApiProperty()
+    @IsString({ message: 'player_id must be a string' })
+     player_2: UserEntity;
 }
 export class UpdateRoomDto extends PartialType(CreateRoomDto) {
 

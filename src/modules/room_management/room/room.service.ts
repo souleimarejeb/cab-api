@@ -17,6 +17,10 @@ export class RoomService {
 
     async create(payload: CreateRoomDto): Promise<CreateRoomDto> {
         try {
+
+            await this.userService.getOne(String(payload.player_1));
+            await this.userService.getOne(String(payload.player_2));
+            
             const newRoom = this.roomRepository.create({
                 ...payload
             })
